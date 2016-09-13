@@ -11,7 +11,7 @@ Later it will provide a console app for doing various cv2 related things.
 
     go get -u -v github.com/cv2me/cv2-tools/cv2-goparser && cv2-goparser
 
-Until merged, replace cv2me above with temblortenor.
+Until PR is accepted, replace cv2me above with temblortenor.
 
 # Contribute
 
