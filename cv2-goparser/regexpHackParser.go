@@ -10,46 +10,46 @@ import (
 
 // This is a POC horrible hack, I am moving towards a proper parser.
 // Uses regexp and all sort of nastiness
-func hackParse(file string) map[string]interface{} {
+func hackParse(file string) (map[string]interface{}, error) {
 	cv2 := make(map[string]interface{})
 
 	aliasRegexp, err := regexp.Compile(`\s*(.+?)\s+AS\s+(.+?)\s*\n`)
 	if err != nil {
-		log.Fatal(err)
+		return cv2, err
 	}
 	tagsRegexp, err := regexp.Compile(`\s*(.+?)\s*:\s*\[(.+?)\]\s*\n`)
 	if err != nil {
-		log.Fatal(err)
+		return cv2, err
 	}
 	rangeRegexp, err := regexp.Compile(`(\d+)-(\d+)`)
 	if err != nil {
-		log.Fatal(err)
+		return cv2, err
 	}
 	sectionRegexp, err := regexp.Compile(`\s*\\\\\s*(.+?)\s*\n`)
 	if err != nil {
-		log.Fatal(err)
+		return cv2, err
 	}
 	//dottedDateLineRegexp, err := regexp.Compile(`\s*(.+?)\.(.+?)\s*:\s*(\d\d\.\d\d\.\d\d\d\d)\s*\n`)
 	dottedDateLineRegexp, err := regexp.Compile(`\s*(.+?)\.(.+?)\s*:\s*(\d\d\.\d\d\.\d\d\d\d)\s*\n`)
 	if err != nil {
-		log.Fatal(err)
+		return cv2, err
 	}
 	dateLineRegexp, err := regexp.Compile(`\s*(.+?)\s*:\s*(\d\d\.\d\d\.\d\d\d\d)\s*\n`)
 	if err != nil {
-		log.Fatal(err)
+		return cv2, err
 	}
 	dottedRegexp, err := regexp.Compile(`\s*(.+?)\.(.+?)\s*:\s*(.+)\s*\n`)
 	if err != nil {
-		log.Fatal(err)
+		return cv2, err
 	}
 	otherRegexp, err := regexp.Compile(`\s*(.+?)\s*:\s*(.+)\s*\n`)
 	if err != nil {
-		log.Fatal(err)
+		return cv2, err
 	}
 
 	b, err := ioutil.ReadFile(file)
 	if err != nil {
-		log.Fatal(err)
+		return cv2, err
 	}
 	s := string(b)
 	inComment := false
@@ -167,7 +167,7 @@ func hackParse(file string) map[string]interface{} {
 		if len(foundDottedDateLine) > 0 {
 			t, err := time.Parse("02.01.2006", foundDottedDateLine[0][3])
 			if err != nil {
-				log.Fatal(err)
+				return cv2, err
 			}
 			log.Printf("foundDottedDateLine %s.%s %s", foundDottedDateLine[0][1], foundDottedDateLine[0][2], t.Format("01/02/2006"))
 			pendingUnknown = ""
@@ -190,7 +190,7 @@ func hackParse(file string) map[string]interface{} {
 		if len(foundDateLine) > 0 {
 			t, err := time.Parse("02.01.2006", foundDateLine[0][2])
 			if err != nil {
-				log.Fatal(err)
+				return cv2, err
 			}
 			log.Printf("foundDateLine %s %s", foundDateLine[0][1], t.Format("01/02/2006"))
 			pendingUnknown = ""
@@ -243,5 +243,5 @@ func hackParse(file string) map[string]interface{} {
 		//log.Println("pendingUnknown", pendingUnknown)
 	}
 
-	return cv2
+	return cv2, nil
 }
