@@ -13,6 +13,7 @@ func main() {
 	if err != nil {
 		// Try my local path
 		cv2 = hackParse(os.ExpandEnv("$GOPATH/src/github.com/temblortenor/cv2-tools/cv2-goparser/example.cv2"))
+		b, err = json.MarshalIndent(cv2, "", " ")
 		if err != nil {
 			log.Fatal("error:", err)
 		}
