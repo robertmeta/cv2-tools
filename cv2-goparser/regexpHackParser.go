@@ -47,7 +47,7 @@ func hackParse(file string) map[string]interface{} {
 		log.Fatal(err)
 	}
 
-	b, err := ioutil.ReadFile("example.cv2")
+	b, err := ioutil.ReadFile(file)
 	if err != nil {
 		log.Fatal(err)
 	}
