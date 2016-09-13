@@ -29,7 +29,6 @@ func hackParse(file string) (map[string]interface{}, error) {
 	if err != nil {
 		return cv2, err
 	}
-	//dottedDateLineRegexp, err := regexp.Compile(`\s*(.+?)\.(.+?)\s*:\s*(\d\d\.\d\d\.\d\d\d\d)\s*\n`)
 	dottedDateLineRegexp, err := regexp.Compile(`\s*(.+?)\.(.+?)\s*:\s*(\d\d\.\d\d\.\d\d\d\d)\s*\n`)
 	if err != nil {
 		return cv2, err
@@ -154,12 +153,32 @@ func hackParse(file string) (map[string]interface{}, error) {
 			foundRange := rangeRegexp.FindAllStringSubmatch(value, -1)
 			if len(foundRange) > 0 {
 				log.Printf("foundRange %s to %s", foundRange[0][1], foundRange[0][2])
+
+				ref := cv2[currentSection].(map[string]interface{})
+				if _, ok := ref["cv2:ranges"]; !ok {
+					ref["cv2:ranges"] = make(map[string]string)
+				}
+
+				ref2 := ref["cv2:ranges"].(map[string]string)
+				ref2[foundTag[0][1]] = value
+
 			} else {
+				// TODO: make this robust
+				value = strings.Replace(value, " ,", ",", -1)
+				value = strings.Replace(value, ", ", ",", -1)
 				enums := strings.Split(value, ",")
 				log.Println("Enums are ")
 				for _, enum := range enums {
 					log.Println("\t", strings.Trim(enum, " "))
 				}
+
+				ref := cv2[currentSection].(map[string]interface{})
+				if _, ok := ref["cv2:enums"]; !ok {
+					ref["cv2:enums"] = make(map[string][]string)
+				}
+
+				ref2 := ref["cv2:enums"].(map[string][]string)
+				ref2[foundTag[0][1]] = enums
 			}
 		}
 
