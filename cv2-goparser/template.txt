@@ -1,0 +1,19 @@
+Resume of: {{.Personal.cv2_values.fullname}} (AKA: {{.Personal.cv2_values.faoname}}
+=======================================================================
+Born: {{.Personal.cv2_values.birthDate}}
+Email: {{.Personal.cv2_values.email}}
+
+Skills
+----------------------------------------------------------------------- {{range $i, $e := .Skills.cv2_values}}
+    {{print $i}}{{range $i2, $e2 := $e }}
+        {{print $i2}}: {{print $e2}}{{end}}{{end}}
+
+Education
+----------------------------------------------------------------------- {{range $i, $e := .Education.cv2_values}}
+    {{print $i}}{{range $i2, $e2 := $e }}
+        {{print $i2}}: {{print $e2}}{{end}}{{end}}
+
+Job History
+----------------------------------------------------------------------- {{range $i, $e := .Professional.cv2_values}}
+    {{print $i}}{{range $i2, $e2 := $e }}
+        {{print $i2}}: {{print $e2}}{{end}}{{end}}

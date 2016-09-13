@@ -120,7 +120,9 @@ func hackParse(file string) (map[string]interface{}, error) {
 		if len(foundSection) > 0 {
 			currentSection = strings.Trim(foundSection[0][1], "\n ")
 			log.Printf("foundSection %s", currentSection)
-			cv2[currentSection] = make(map[string]interface{})
+			if _, ok := cv2[currentSection]; !ok {
+				cv2[currentSection] = make(map[string]interface{})
+			}
 			pendingUnknown = ""
 		}
 
@@ -136,11 +138,11 @@ func hackParse(file string) (map[string]interface{}, error) {
 			pendingUnknown = ""
 
 			ref := cv2[currentSection].(map[string]interface{})
-			if _, ok := ref["cv2:aliases"]; !ok {
-				ref["cv2:aliases"] = make(map[string]string)
+			if _, ok := ref["cv2_aliases"]; !ok {
+				ref["cv2_aliases"] = make(map[string]string)
 			}
 
-			ref2 := ref["cv2:aliases"].(map[string]string)
+			ref2 := ref["cv2_aliases"].(map[string]string)
 			ref2[foundAs[0][1]] = value
 		}
 
@@ -155,11 +157,11 @@ func hackParse(file string) (map[string]interface{}, error) {
 				log.Printf("foundRange %s to %s", foundRange[0][1], foundRange[0][2])
 
 				ref := cv2[currentSection].(map[string]interface{})
-				if _, ok := ref["cv2:ranges"]; !ok {
-					ref["cv2:ranges"] = make(map[string]string)
+				if _, ok := ref["cv2_ranges"]; !ok {
+					ref["cv2_ranges"] = make(map[string]string)
 				}
 
-				ref2 := ref["cv2:ranges"].(map[string]string)
+				ref2 := ref["cv2_ranges"].(map[string]string)
 				ref2[foundTag[0][1]] = value
 
 			} else {
@@ -173,11 +175,11 @@ func hackParse(file string) (map[string]interface{}, error) {
 				}
 
 				ref := cv2[currentSection].(map[string]interface{})
-				if _, ok := ref["cv2:enums"]; !ok {
-					ref["cv2:enums"] = make(map[string][]string)
+				if _, ok := ref["cv2_enums"]; !ok {
+					ref["cv2_enums"] = make(map[string][]string)
 				}
 
-				ref2 := ref["cv2:enums"].(map[string][]string)
+				ref2 := ref["cv2_enums"].(map[string][]string)
 				ref2[foundTag[0][1]] = enums
 			}
 		}
@@ -192,11 +194,11 @@ func hackParse(file string) (map[string]interface{}, error) {
 			pendingUnknown = ""
 
 			ref := cv2[currentSection].(map[string]interface{})
-			if _, ok := ref["cv2:values"]; !ok {
-				ref["cv2:values"] = make(map[string]interface{})
+			if _, ok := ref["cv2_values"]; !ok {
+				ref["cv2_values"] = make(map[string]interface{})
 			}
 
-			ref2 := ref["cv2:values"].(map[string]interface{})
+			ref2 := ref["cv2_values"].(map[string]interface{})
 			if _, ok := ref2[foundDottedDateLine[0][1]]; !ok {
 				ref2[foundDottedDateLine[0][1]] = make(map[string]string)
 			}
@@ -215,11 +217,11 @@ func hackParse(file string) (map[string]interface{}, error) {
 			pendingUnknown = ""
 
 			ref := cv2[currentSection].(map[string]interface{})
-			if _, ok := ref["cv2:values"]; !ok {
-				ref["cv2:values"] = make(map[string]string)
+			if _, ok := ref["cv2_values"]; !ok {
+				ref["cv2_values"] = make(map[string]string)
 			}
 
-			ref2 := ref["cv2:values"].(map[string]string)
+			ref2 := ref["cv2_values"].(map[string]string)
 			ref2[foundDateLine[0][1]] = t.Format("01/02/2006")
 		}
 
@@ -231,11 +233,11 @@ func hackParse(file string) (map[string]interface{}, error) {
 			pendingUnknown = ""
 
 			ref := cv2[currentSection].(map[string]interface{})
-			if _, ok := ref["cv2:values"]; !ok {
-				ref["cv2:values"] = make(map[string]interface{})
+			if _, ok := ref["cv2_values"]; !ok {
+				ref["cv2_values"] = make(map[string]interface{})
 			}
 
-			ref2 := ref["cv2:values"].(map[string]interface{})
+			ref2 := ref["cv2_values"].(map[string]interface{})
 			if _, ok := ref2[foundDotted[0][1]]; !ok {
 				ref2[foundDotted[0][1]] = make(map[string]string)
 			}
@@ -252,12 +254,13 @@ func hackParse(file string) (map[string]interface{}, error) {
 			pendingUnknown = ""
 
 			ref := cv2[currentSection].(map[string]interface{})
-			if _, ok := ref["cv2:values"]; !ok {
-				ref["cv2:values"] = make(map[string]string)
+			if _, ok := ref["cv2_values"]; !ok {
+				ref["cv2_values"] = make(map[string]string)
 			}
 
-			ref2 := ref["cv2:values"].(map[string]string)
+			ref2 := ref["cv2_values"].(map[string]string)
 			ref2[foundOther[0][1]] = value
+			log.Printf("%s %s %s\n", currentSection, foundOther[0][1], value)
 		}
 		//log.Println("pendingUnknown", pendingUnknown)
 	}

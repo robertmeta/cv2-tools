@@ -30,6 +30,7 @@ Then submit a PR from your project to mine.
 # TODO
 - fix \{ ... } handling with multiple in section (push, pop?)
 - 2nd pass processing to connect like \email and stuff like that
+  - validated typed things (ranges, enums)
 
 # Notes
 - has to be two pass in order to work (cause of binding things found later)
@@ -42,4 +43,4 @@ Then submit a PR from your project to mine.
 # Questions
 - Only need \{...} support on value side?
 - Maybe a diff type of \[...] for escaping tags?
-- How do I know what section to get like \email from?
+- How do I know what section to get like \{email} from? Should it be \{personal.email}

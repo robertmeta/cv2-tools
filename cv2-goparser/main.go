@@ -10,12 +10,18 @@ import (
 func main() {
 	cv2, err := hackParse(os.ExpandEnv("$GOPATH/src/github.com/cv2me/cv2-tools/cv2-goparser/example.cv2"))
 	if err != nil {
-		// Try my local path
-		cv2, err = hackParse(os.ExpandEnv("$GOPATH/src/github.com/temblortenor/cv2-tools/cv2-goparser/example.cv2"))
+		log.Fatal(err)
 	}
+
+	// print as json for sanity check
 	b, err := json.MarshalIndent(cv2, "", " ")
 	if err != nil {
-		log.Fatal("error:", err)
+		log.Fatal(err)
 	}
 	fmt.Print(string(b))
+
+	err = renderTemplate(os.ExpandEnv("$GOPATH/src/github.com/cv2me/cv2-tools/cv2-goparser/template.txt"), cv2)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
