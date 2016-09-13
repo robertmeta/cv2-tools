@@ -1,0 +1,124 @@
+/* comments optional - "filename": john_doe_timestamp.cv2 */
+\\ Personal
+fullname: John Doe
+faoname: Mr Doe
+
+\\ Professional
+/* aliases can be created for any multi-tag properties,
+ * but have to be created for user-defined properties, such as skills */
+job1 AS j1
+job2 AS j2
+
+j1.name: ☃☃☃ Some Company Name
+j1.dateStart: 05.11.1955
+j1.dateEnd: 05.11.1955
+j1.role: Senior Developer
+j1.description: "this text spans several lines and is rendered similar
+to the pre tag in HTML - preserving line breaks"
+
+j2.name: The previous or next company
+j2.dateStart: 05.11.1955
+j2.dateEnd: 05.11.1955
+j2.description: "created \{url:http://blabla.org} in this job, \{"ASDF}
+email to \{mailto:myaddress@here.com} for questions, can also use \{email}"
+j2.additionalInfo: some more blah, had a contract for \{j1} while doing this
+
+\\ Education
+edu1.name: Some University
+edu1.dateStart: 05.11.1955
+edu1.dataEnd: 05.11.1955
+edu1.degree: BSc
+
+\\ Skills
+CSS AS css
+Java AS java\{\\dog}
+Proect Managemenet AS pm \{ \\ not section }
+
+scale1: [0-100]
+scale2: [Beginner, Intermediate, Expert]
+
+css.level: \{scale1:67}
+css.category: markup languages
+
+java.level: \{scale1:85}
+java.category: programming languages
+
+pm.level: \{scale2:Expert}
+pm.category: organizational
+
+\\ Personal
+/* you can concatenate information manually anytime,
+ * systems using the .cv2 will re-format the data */
+birthDate: 05.11.1955
+email: myemail@here.com
+
+/*
+Object Representation
+
+CV2(map): {
+    Personal(map) {
+        FullName: John Doe
+        FAOName: Mr Doe
+    }
+    Professional(map) {
+        Aliases(map): {
+            job1: j1
+            job2: j2
+        }
+        Values(map): {
+            j1(map): {
+                name(string): Some Company Name
+                dateStart(date): 05.11.1955
+                dateEnd(date): 05.11.1955
+                role(string): Senior Developer
+                description(string): this text spans several lines and is rendered similar\nto the pre tag in HTML - preserving line breaks
+            }
+            j2(map): {
+                name(string): The previous or next company
+                dateStart(date): 05.11.1955
+                dateEnd(date): 05.11.1955
+                description(string): created \{url:http://blabla.org} in this job,\nemail to \{mailto:myaddress@here.com} for questions, can also use \{email}
+                additionalInfo(string): some more blah, had a contract for \{j1} while doing this
+            }
+        }
+    }
+    Education(map): {
+        edu1(map): {
+            name(string): Some University
+            dateStart(date): 05.11.1955
+            dateEnd(date): 05.11.1955
+            degree(string): Bsc
+        }
+    }
+    Skills {
+        Aliases(map) {
+            CSS: css
+            Java: java
+            Project Management: pm
+        }
+        Tags(map) {
+            scale1(slice): {1, 2, 3, 4, ... 100}
+            scale2(slice): { Beginner, Intermediate, Expert }
+        }
+        Values(map) {
+            css(map) {
+                level(string/checked against Ranges.scale1): 67
+                category(string): markup languages
+            }
+            java(map) {
+                level(string/checked against Ranges.scale1): 85
+                category(string): programming languages
+            }
+            pm(map) {
+                level(string/checked against Enumerations.scale2): Expert
+                category(string): organizational
+            }
+        }
+    }
+    Personal(map) {
+        birthDate: 05.11.1955
+        email: myemail@here.com
+    }
+}
+
+*/
