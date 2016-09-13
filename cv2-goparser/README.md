@@ -15,8 +15,9 @@ Until PR is accepted, replace cv2me above with temblortenor.
 
 # Contribute
 
-Make a fork of the project on GitHub first.
+Make a fork of the project on GitHub first (post PR)
 
+    go get github.com/cv2me/cv2-tools/cv2-goparser
     cd $GOPATH/src/github.com/cv2me/cv2-tools/cv2-goparser
     git remote add fork git@github.com/{YOU}/{thefork.git}
     # do stuff, then try it
